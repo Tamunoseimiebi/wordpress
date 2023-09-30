@@ -3,10 +3,6 @@ Automated deployment process for a WordPress website using Nginx as the web serv
 
 
 
-
-```markdown
-```
-
 This guide outlines the steps to install a secured WordPress website on Ubuntu 22.04. 
 This README consists of two major sections:
 
@@ -216,7 +212,6 @@ sudo systemctl restart artillery  # Restarts the service.
 ## Conclusion
 
 This section reviews the OpenSSH server configuration and implements various hardening measures to secure the server.
-```
-```
+
 
 
