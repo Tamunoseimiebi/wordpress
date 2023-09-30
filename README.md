@@ -3,7 +3,7 @@ Automated deployment process for a WordPress website using Nginx as the web serv
 
 
 
-This guide outlines the steps to install a secured WordPress website on Ubuntu 22.04. 
+This guide outlines the steps to install a secure WordPress website on Ubuntu 22.04. 
 This README consists of two major sections:
 
 1. Setting up and configuring a secure Ubuntu 22.04 instance.
