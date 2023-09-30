@@ -315,6 +315,7 @@ define( 'DB_PASSWORD', 'pa55w0rd' );
 ### Complete installation via web interface
 In your web browser, navigate to your server’s domain name or public IP address: <br>
 Select the language: <br>
+<br>
 ![Alt text](/screenshots/language.png?raw=true "select language")
 
 Next, on the main setup page, enter the WordPress site name  and choose a secure username and password.
