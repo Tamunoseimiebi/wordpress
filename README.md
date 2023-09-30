@@ -131,6 +131,17 @@ Reload SSH to apply the new settings:
 sudo systemctl reload sshd.service
 ```
 
+### Replace password authentication with SSH keys.
+
+Given enough time, any password can be cracked with a brute force attack. To prevent this,  switch to using SSH keys instead.
+
+First, create a new SSH key pair for wpadmin.
+
+```shell
+sudo su - wpadmin
+ssh-keygen
+```
+
 ## Enable the Firewall
 
 This is used to protect our server’s unused ports with a firewall solution such as Uncomplicated Firewall (UFW). This firewall comes preinstalled on Ubuntu, but it’s disabled by default.
@@ -214,4 +225,100 @@ sudo systemctl restart artillery  # Restarts the service.
 This section reviews the OpenSSH server configuration and implements various hardening measures to secure the server.
 
 
+## Part 2: Setting up and configuring a secure Ubuntu 22.04 instance
 
+ Setting up LEMP (Linux, Nginx, MySQL, PHP) stack for WordPress.
+
+### Update Packages
+```shell
+sudo apt update && sudo apt upgrade -y
+```
+
+### Install WordPress dependencies: Nginx:
+```shell
+sudo apt install nginx -y
+```
+
+### Install PHP and optional dependencies:
+```shell
+sudo apt install php8.1-fpm php-mysql
+sudo apt install php-curl php-gd php-intl php-mbstring php-soap php-xml php-xmlrpc php-zip
+```
+### Install WordPress dependencies: MYSQL:
+```shell
+sudo apt install mysql-server -y
+```
+The installation process might ask you to acknowledge some configuration steps for the MySQL server.
+
+You will be asked to choose the default authentication plugin you are comfortable using.
+
+### Database Configuration:
+```shell
+mysql_secure_installation
+```
+The above command  helps create the root user password for  MySQL database alongside other important database configuration settings.
+
+Login to MySQL shell using the created root user credentials:
+```shell
+sudo mysql -u root -p
+```
+Create a WordPress database and user.
+```shell
+mysql> CREATE DATABASE wordpress;
+mysql> CREATE USER 'wpuser'@'localhost' IDENTIFIED BY 'pa55w0rd';
+mysql> GRANT ALL PRIVILEGES ON wordpress;
+mysql> FLUSH PRIVILEGES;
+mysql> exit;
+```
+### Download WordPress
+```shell
+cd /var/www/html
+sudo wget http://wordpress.org/latest.tar.gz
+sudo tar -xzvf latest.tar.gz
+```
+### Configure website directory permissions
+```shell
+sudo chown -R www-data:www-data /var/www/html/wordpress
+sudo chmod -R 775 /var/www/html/wordpress 
+```
+### Setup the WordPress Configuration file
+Edit secret keys to enhance the security of our website. WordPress provides a secure generator for these values, which can be gotten using the following commands:
+```shell
+curl -s https://api.wordpress.org/secret-key/1.1/salt/
+```
+Next, Open the WordPress configuration file:
+```shell
+sudo nano wp-config.php
+```
+Update the section that contains the dummy values for those settings
+```shell
+define('AUTH_KEY',         'VALUES COPIED FROM THE COMMAND LINE');
+define('SECURE_AUTH_KEY',  'VALUES COPIED FROM THE COMMAND LINE');
+define('LOGGED_IN_KEY',    'VALUES COPIED FROM THE COMMAND LINE');
+define('NONCE_KEY',        'VALUES COPIED FROM THE COMMAND LINE');
+define('AUTH_SALT',        'VALUES COPIED FROM THE COMMAND LINE');
+define('SECURE_AUTH_SALT', 'VALUES COPIED FROM THE COMMAND LINE');
+define('LOGGED_IN_SALT',   'VALUES COPIED FROM THE COMMAND LINE');
+define('NONCE_SALT',       'VALUES COPIED FROM THE COMMAND LINE');
+```
+Next, update database connection parameters:
+```shell
+define( 'DB_NAME', 'wordpress' );
+
+/** MySQL database username */
+define( 'DB_USER', 'wpuser' );
+
+/** MySQL database password */
+define( 'DB_PASSWORD', 'pa55w0rd' );
+```
+### Next, complete installation via web interface
+In your web browser, navigate to your server’s domain name or public IP address:
+Select the language:
+![Alt text](/screenshots/language.jpg?raw=true "select language")
+
+Next, on the main setup page, enter the WordPress site name  and choose a secure username and password (
+
+Enter an email address and select whether you want to discourage search engines from indexing your site:
+![Alt text](/screenshots/language.jpg?raw=true "select language")
+
+Once you log in, you will be taken to the WordPress administration dashboard:
