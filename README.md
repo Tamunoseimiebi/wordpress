@@ -316,11 +316,18 @@ define( 'DB_PASSWORD', 'pa55w0rd' );
 In your web browser, navigate to your server’s domain name or public IP address: <br>
 Select the language: <br>
 <br>
+<p align="center">
 ![Alt text](/screenshots/language.png?raw=true "select language")
-
+</p>
 Next, on the main setup page, enter the WordPress site name  and choose a secure username and password.
 
 Enter an email address and select whether you want to discourage search engines from indexing your site. <br>
-![Alt text](/screenshots/language.jpg?raw=true "select language")
+<br>
+<p align="center">
+![Alt text](/screenshots/language.png?raw=true "select language")
+</p>
 
 Once you log in, you will be taken to the WordPress administration dashboard:
+<p align="center">
+![Alt text](/screenshots/language.png?raw=true "select language")
+</p>
