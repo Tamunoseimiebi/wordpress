@@ -1,12 +1,11 @@
-# wordpress
+# Brainforce Assessment
 Automated deployment process for a WordPress website using Nginx as the web server, LEMP (Linux, Nginx, MySQL, PHP) stack, and GitHub Actions as the CI/CD automation tool.
 
 
-Certainly! Here's the entire content within a code block:
+
 
 ```markdown
 ```
-# Secure WordPress Installation on Ubuntu 22.04
 
 This guide outlines the steps to install a secured WordPress website on Ubuntu 22.04. This README consists of two major sections:
 
@@ -15,14 +14,21 @@ This guide outlines the steps to install a secured WordPress website on Ubuntu 2
 
 ## Part 1: Setting up and configuring a secure Ubuntu 22.04 instance
 
-### i. Provision an EC2 instance from AWS Cloud
 
-### ii. Login to the virtual private server
+
+### i. Login to the virtual private server
 
 Use SSH to connect to your server:
 
 ```shell
 ssh myuser@ipaddress
+```
+### ii. Keep the system up to date.
+
+An extremely crucial part of hardening any system is to ensure that it is always kept up to date. Doing this will keep any known bugs or vulnerabilities patched.
+
+```shell
+apt-get update && apt-get upgrade
 ```
 
 ### iii. Harden SSH
