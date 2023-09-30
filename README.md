@@ -324,10 +324,10 @@ Next, on the main setup page, enter the WordPress site name  and choose a secure
 Enter an email address and select whether you want to discourage search engines from indexing your site. <br>
 <br>
 <p align="center">
-![Alt text](/screenshots/language.png?raw=true "select language")
+  <img src="/screenshots/config.png">
 </p>
 
 Once you log in, you will be taken to the WordPress administration dashboard:
 <p align="center">
-![Alt text](/screenshots/language.png?raw=true "select language")
+  <img src="/screenshots/dashboard.png">
 </p>
