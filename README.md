@@ -317,7 +317,7 @@ In your web browser, navigate to your server’s domain name or public IP addres
 Select the language: <br>
 <br>
 <p align="center">
-![Alt text](/screenshots/language.png?raw=true "select language")
+  <img src="/screenshots/language.png">
 </p>
 Next, on the main setup page, enter the WordPress site name  and choose a secure username and password.
 
