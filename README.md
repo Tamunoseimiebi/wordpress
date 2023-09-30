@@ -316,9 +316,9 @@ In your web browser, navigate to your server’s domain name or public IP addres
 Select the language: <br>
 ![Alt text](/screenshots/language.jpg?raw=true "select language")
 
-Next, on the main setup page, enter the WordPress site name  and choose a secure username and password (
+Next, on the main setup page, enter the WordPress site name  and choose a secure username and password.
 
-Enter an email address and select whether you want to discourage search engines from indexing your site: <br>
+Enter an email address and select whether you want to discourage search engines from indexing your site. <br>
 ![Alt text](/screenshots/language.jpg?raw=true "select language")
 
 Once you log in, you will be taken to the WordPress administration dashboard:
