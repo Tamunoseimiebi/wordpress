@@ -9,7 +9,8 @@ This README consists of two major sections:
 1. Setting up and configuring a secure Ubuntu 22.04 instance.
 2. Setting up LEMP (Linux, Nginx, MySQL, PHP) stack for WordPress.
 
-## Part 1: Setting up and configuring a secure Ubuntu 22.04 instance
+## Part 1
+Setting up and configuring a secure Ubuntu 22.04 instance
 
 
 
