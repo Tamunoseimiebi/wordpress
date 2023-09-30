@@ -7,7 +7,8 @@ Automated deployment process for a WordPress website using Nginx as the web serv
 ```markdown
 ```
 
-This guide outlines the steps to install a secured WordPress website on Ubuntu 22.04. This README consists of two major sections:
+This guide outlines the steps to install a secured WordPress website on Ubuntu 22.04. 
+This README consists of two major sections:
 
 1. Setting up and configuring a secure Ubuntu 22.04 instance.
 2. Setting up LEMP (Linux, Nginx, MySQL, PHP) stack for WordPress.
@@ -16,14 +17,14 @@ This guide outlines the steps to install a secured WordPress website on Ubuntu 2
 
 
 
-### i. Login to the virtual private server
+### Login to the virtual private server
 
 Use SSH to connect to your server:
 
 ```shell
 ssh myuser@ipaddress
 ```
-### ii. Keep the system up to date.
+### Keep the system up to date.
 
 An extremely crucial part of hardening any system is to ensure that it is always kept up to date. Doing this will keep any known bugs or vulnerabilities patched.
 
@@ -31,7 +32,36 @@ An extremely crucial part of hardening any system is to ensure that it is always
 apt-get update && apt-get upgrade
 ```
 
-### iii. Harden SSH
+
+### Ensure Only Root Has UID of 0
+
+Accounts that have a UID set to 0 have the highest access to a system. In most cases, this should only be the root account. Use the below command to list all accounts with a UID of 0:
+
+```shell
+awk -F: '($3=="0"){print}' /etc/passwd
+```
+
+### Adding New User Accounts
+
+It’s best practice to keep the use of the root account to a minimum. To do this, add a new account that will be primarily used with the command below:
+
+```shell
+adduser wpadmin
+```
+Add wpadmin to sudo group
+
+```shell
+usermod -aG sudo wpadmin
+```
+
+### Sudo Configuration
+
+The sudo package allows a regular user to run commands in an elevated context. This means a regular user can run commands normally restricted to the root account. Often, this is the ideal way of making system configurations or running elevated commands – not by using the root account. The configuration file for sudo is in /etc/sudoers. The file can  be edited by using the “visudo” command. Add the following configuration below:
+
+```shell
+wpadmin ALL=(ALL) NOPASSWD:ALL
+```
+### Harden SSH
 
 Linux servers are often administered remotely using SSH, making securing the OpenSSH server crucial. These initial hardening configurations enhance server security.
 
@@ -53,10 +83,10 @@ Disable SSH login for the root user:
 PermitRootLogin no
 ```
 
-Change the default SSH port (optional):
+Change the default SSH port:
 
 ```shell
-Port 49160
+Port 3355
 ```
 
 Limit the maximum number of authentication attempts:
@@ -75,6 +105,14 @@ Disable SSH password authentication:
 
 ```shell
 PasswordAuthentication no
+```
+
+Allow Specific Users
+
+This line will allow you to specify which users can log into the SSH service:
+
+```shell
+AllowUsers wpadmin
 ```
 
 Disable authentication with empty passwords:
@@ -97,7 +135,22 @@ Reload SSH to apply the new settings:
 sudo systemctl reload sshd.service
 ```
 
-### iv. Install Artillery Honeypot for server monitoring and hardening
+## Enable the Firewall
+
+This is used to protect our server’s unused ports with a firewall solution such as Uncomplicated Firewall (UFW). This firewall comes preinstalled on Ubuntu, but it’s disabled by default.
+
+```shell
+sudo ufw enable 
+```
+Configure the firewall to allow HTTP, HTTPS and SSH connections.
+
+```shell
+sudo ufw allow http
+sudo ufw allow https
+sudo ufw allow 3322/tcp
+```
+
+### Install Artillery Honeypot for server monitoring and hardening
 
 Artillery is a multi-purpose defense tool for Linux-based systems with honeypot capabilities, OS hardening, file system monitoring, and real-time threat analysis.
 
@@ -166,4 +219,4 @@ This section reviews the OpenSSH server configuration and implements various har
 ```
 ```
 
-This Markdown format places the entire content within a single code block for easy readability.
+
