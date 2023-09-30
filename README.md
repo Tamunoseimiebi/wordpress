@@ -225,7 +225,7 @@ sudo systemctl restart artillery  # Restarts the service.
 This section reviews the OpenSSH server configuration and implements various hardening measures to secure the server.
 
 
-## Part 2: Setting up and configuring a secure Ubuntu 22.04 instance
+## Part 2
 
  Setting up LEMP (Linux, Nginx, MySQL, PHP) stack for WordPress.
 
@@ -311,14 +311,14 @@ define( 'DB_USER', 'wpuser' );
 /** MySQL database password */
 define( 'DB_PASSWORD', 'pa55w0rd' );
 ```
-### Next, complete installation via web interface
-In your web browser, navigate to your server’s domain name or public IP address:
-Select the language:
+### Complete installation via web interface
+In your web browser, navigate to your server’s domain name or public IP address: <br>
+Select the language: <br>
 ![Alt text](/screenshots/language.jpg?raw=true "select language")
 
 Next, on the main setup page, enter the WordPress site name  and choose a secure username and password (
 
-Enter an email address and select whether you want to discourage search engines from indexing your site:
+Enter an email address and select whether you want to discourage search engines from indexing your site: <br>
 ![Alt text](/screenshots/language.jpg?raw=true "select language")
 
 Once you log in, you will be taken to the WordPress administration dashboard:
