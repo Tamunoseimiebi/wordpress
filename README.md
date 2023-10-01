@@ -235,9 +235,103 @@ This section reviews the OpenSSH server configuration and implements various har
 sudo apt update && sudo apt upgrade -y
 ```
 
-### Install WordPress dependencies: Nginx:
+### Install WordPress dependencies: Nginx & Certbot:
 ```shell
-sudo apt install nginx -y
+sudo apt install nginx certbot python3-certbot-nginx -y 
+```
+### Nginx Configuration
+Create nginx configuration file and paste content below:
+
+sudo nano /etc/nginx/sites-available/wordpress
+
+```shell
+
+server {
+    listen 80;
+    server_name websiteurl.com www.websiteurl.com;
+
+    root /var/www/wordpress;
+    index index.php;
+
+    location / {
+        try_files $uri $uri/ /index.php?$args;
+    }
+
+    location ~ \.php$ {
+        include fastcgi_params;
+        fastcgi_pass unix:/run/php/php8.1-fpm.sock; 
+    }
+
+    location ~ /\.ht {
+        deny all;
+    }
+
+    location = /favicon.ico {
+        log_not_found off;
+        access_log off;
+    }
+
+    location = /robots.txt {
+        allow all;
+        log_not_found off;
+        access_log off;
+    }
+
+    location ~* \.(css|gif|ico|jpeg|jpg|js|png)$ {
+        expires max;
+        log_not_found off;
+    }
+
+    # Additional security headers
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header X-Frame-Options "SAMEORIGIN" always;
+    add_header X-Xss-Protection "1; mode=block" always;
+
+    # Enable Gzip compression
+    gzip on;
+    gzip_disable "msie6";
+    gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
+
+    # Cache control settings (adjust cache durations as needed)
+    location ~* \.(jpg|jpeg|png|gif|ico|css|js)$ {
+        expires 1y;
+    }
+
+    # Cache static assets aggressively
+    location ~* \.(pdf|html|swf)$ {
+        expires 7d;
+    }
+
+    # Cache dynamic content (adjust cache durations as needed)
+    location ~* \.(xml|json|rss|atom|gz|zip)$ {
+        expires 1h;
+        add_header Cache-Control "public, max-age=3600";
+    }
+
+    # Cache static content with query strings (adjust cache durations as needed)
+    location ~* \.(css|js|png|gif|jpg|jpeg|swf|xml|json|txt|ttf|woff|woff2|svg|eot)$ {
+        expires 30d;
+        add_header Cache-Control "public, max-age=2592000";
+    }
+}
+
+```
+
+save and exit file editor.
+Run the following commands to link the configuration file in the sites-enabled directory, test configuration and reload nginx.
+
+```shell
+sudo ln -s /etc/nginx/sites-available/wordpress /etc/nginx/sites-enabled
+
+sudo nginx -t
+
+sudo systemctl reload nginx
+```
+Enable SSL/TLS with Lets Encypt:
+
+### Install WordPress dependencies: MYSQL:
+```shell
+sudo certbot --nginx -d websiteurl.com www.websiteurl.com
 ```
 
 ### Install PHP and optional dependencies:
