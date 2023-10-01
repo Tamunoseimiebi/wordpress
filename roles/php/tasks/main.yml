@@ -6,8 +6,7 @@
     name: "{{ item  }}"
     state: present
   with_items:
-    - php8.1
-    - php-fpm
+    - php8.1-fpm
     - php-mysql
     - php-mcrypt
     - php-gd

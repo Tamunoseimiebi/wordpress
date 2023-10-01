@@ -4,19 +4,15 @@
 
 - include_vars: ../defaults/main.yml
 
-- name: Install MySQL Server and  Python MySQL packages 
+- name: Install MySQL Server 
   apt:
     name: "{{ item }}"
     state: latest
     force: yes
   with_items:
-    - python-mysqldb
-    - mysql-common
+
     - mysql-server
-    - libmysqlclient20
-    - python3-mysqldb
-    - python3-mysqldb-dbg
-    - mysql-client
+ 
 
 - name: Ensure MySQL server is running
   service:
