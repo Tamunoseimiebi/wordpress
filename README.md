@@ -14,6 +14,9 @@ This README consists of two major sections:
 Setting up and configuring a secure Ubuntu 22.04 instance
 
 
+### Server Provisioning
+
+I  provisioned an Ubuntu 22.04 LTS VPS on AWS Cloud Console using an existing Ubuntu AMI.
 
 ### Login to the virtual private server
 
