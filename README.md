@@ -516,3 +516,8 @@ jobs:
           ssh -i ${{ secrets.SSH_PRIVATE_KEY }} ${{ secrets.SSH_USER }}@${{ secrets.IP_ADDRESS }} "cd /var/html/wordpress && git pull"
 
 ```
+### Conclusion
+
+When Github action is triggered by a push or commit to the main branch it runs an ansible playbook (deploy.yml), this playbook checks if the LEMP stack (Nginx, MySQL, PHP) is already installed. <br>
+
+This playbook sets a variable (lemp_installed) to true if the stack is installed and then the GitHub action only updates the content of the WordPress site. However, if the variable (lemp_installed) returns false, GitHub actions run a supplementary Ansible playbook (install-lemp.yml) that installs and configures LEMP stack on the server.
