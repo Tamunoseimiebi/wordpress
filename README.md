@@ -259,7 +259,8 @@ server {
 
     location ~ \.php$ {
         include fastcgi_params;
-        fastcgi_pass unix:/run/php/php8.1-fpm.sock; 
+        fastcgi_pass unix:/run/php/php8.1-fpm.sock;
+        fastcgi_param   SCRIPT_FILENAME $document_root$fastcgi_script_name; 
     }
 
     location ~ /\.ht {
@@ -317,7 +318,7 @@ server {
 
 ```
 
-save and exit file editor.
+save and exit file editor. <br>
 Run the following commands to link the configuration file in the sites-enabled directory, test configuration and reload nginx.
 
 ```shell
@@ -329,7 +330,6 @@ sudo systemctl reload nginx
 ```
 Enable SSL/TLS with Lets Encypt:
 
-### Install WordPress dependencies: MYSQL:
 ```shell
 sudo certbot --nginx -d websiteurl.com www.websiteurl.com
 ```
