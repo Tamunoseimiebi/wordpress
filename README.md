@@ -8,6 +8,7 @@ This README consists of two major sections:
 
 1. Setting up and configuring a secure Ubuntu 22.04 instance.
 2. Setting up LEMP (Linux, Nginx, MySQL, PHP) stack for WordPress.
+3. CI/CD Configuration with Github Actions
 
 ## Part 1
 Setting up and configuring a secure Ubuntu 22.04 instance
@@ -426,3 +427,92 @@ Once you log in, you will be taken to the WordPress administration dashboard:
 <p align="center">
   <img src="/screenshots/dashboard.png">
 </p>
+
+
+## Part 3
+CI/CD Configuration with GitHub Actions
+
+This section outlines how to set up automated deployment using GitHub Actions. <br>
+In other to achieve this, we'll be using Ansible to automate the setup of WordPress dependencies (PHP, Nginx & MYSQL).
+
+### Ansible Directory Structure
+
+```shell
+ansible/
+├── roles
+│   ├── mysql
+│   │   ├── defaults
+│   │   │   └── main.yml
+│   │   ├── handlers
+│   │   │   └── main.yml
+│   │   ├── tasks
+│   │   │   └── main.yml
+│   │   └── templates
+│   │       └── my.cnf.j2
+│   ├── nginx
+│   │   ├── handlers
+│   │   │   └── main.yml
+│   │   ├── tasks
+│   │   │   └── main.yml
+│   │   └── templates
+│   │       └── default.conf
+│   ├── php
+│   │   ├── handlers
+│   │   │   └── main.yml
+│   │   └── tasks
+│   │       └── main.yml
+│   └── wordpress
+│       └── tasks
+│           └── main.yml
+
+```
+The above contains ansible scripts that ensure a LEMP stack is installed and configured to deploy our WordPress website.
+
+### GitHub Actions Setup
+
+In a local terminal navigate to the project directory to create a config file:
+
+```shell
+nano .github/workflows/deploy.yml
+```
+Paste in the content below:
+
+```shell
+name: Deploy WordPress Website
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up SSH key
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Install Ansible
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ansible
+        become: true
+
+      - name: Deploy and Configure LEMP Stack
+        run: |
+          ansible-playbook -i inventory playbook.yml
+        become: true
+        env:
+          ANSIBLE_HOST_KEY_CHECKING: False
+          
+      - name: Update WordPress Files
+        run: |
+          ssh -i ${{ secrets.SSH_PRIVATE_KEY }} ${{ secrets.SSH_USER }}@${{ secrets.IP_ADDRESS }} "cd /var/html/wordpress && git pull"
+
+```
