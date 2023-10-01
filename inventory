@@ -1,2 +1,2 @@
 [wordpress]
-ipaddress ansible_ssh_user=your_ssh_user
+3.82.224.213 ansible_ssh_user=ubuntu
