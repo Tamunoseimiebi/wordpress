@@ -1,4 +1,33 @@
 ---
+
+- name: Check if WordPress with LEMP Stack is already installed.
+  hosts: web
+  become: yes
+
+  tasks:
+    - name: Check if Nginx is installed
+      command: dpkg -l | grep nginx
+      register: nginx_installed
+      ignore_errors: yes
+
+    - name: Check if MySQL is installed
+      command: dpkg -l | grep mysql-server
+      register: mysql_installed
+      ignore_errors: yes
+
+    - name: Check if PHP-FPM is installed
+      command: dpkg -l | grep php-fpm
+      register: php_installed
+      ignore_errors: yes
+
+    - name: Set fact for LEMP stack installed
+      set_fact:
+        lemp_installed: "{{ nginx_installed.rc == 0 and mysql_installed.rc == 0 and php_installed.rc == 0 }}"
+
+    - name: Install LEMP stack
+      include_tasks: install-lemp.yml
+      when: lemp_installed is not defined or lemp_installed == false
+
 # This playbook deploys WordPress on LEMP Stack 
 
  - name: Configure WordPress on LEMP Stack 
@@ -10,4 +39,4 @@
      - nginx
      - php
      - wordpress
-...
+
