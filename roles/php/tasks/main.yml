@@ -8,8 +8,7 @@
   with_items:
     - php8.1-fpm
     - php-mysql
-    - php-mcrypt
-    - php-gd
+
 
 - name: configurethe php processor
   lineinfile:
