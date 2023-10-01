@@ -1,0 +1,36 @@
+name: Deploy WordPress Website
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up SSH key
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Install Ansible
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ansible
+        become: true
+
+      - name: Deploy and Configure LEMP Stack
+        run: |
+          ansible-playbook -i inventory deploy.yml
+        become: true
+        env:
+          ANSIBLE_HOST_KEY_CHECKING: False
+          
+      - name: Update WordPress Files
+        run: |
+          ssh -i ${{ secrets.SSH_PRIVATE_KEY }} ${{ secrets.SSH_USER }}@${{ secrets.IP_ADDRESS }} "cd /var/html/wordpress && git pull"
