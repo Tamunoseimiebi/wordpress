@@ -250,7 +250,7 @@ server {
     listen 80;
     server_name websiteurl.com www.websiteurl.com;
 
-    root /var/www/wordpress;
+    root /var/www/html/wordpress;
     index index.php;
 
     location / {
@@ -383,6 +383,7 @@ curl -s https://api.wordpress.org/secret-key/1.1/salt/
 ```
 Next, Open the WordPress configuration file:
 ```shell
+sudo mv wp-config-sample.php wp-config.php
 sudo nano wp-config.php
 ```
 Update the section that contains the dummy values for those settings
