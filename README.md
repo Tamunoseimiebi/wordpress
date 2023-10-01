@@ -361,7 +361,7 @@ Create a WordPress database and user.
 ```shell
 mysql> CREATE DATABASE wordpress;
 mysql> CREATE USER 'wpuser'@'localhost' IDENTIFIED BY 'pa55w0rd';
-mysql> GRANT ALL PRIVILEGES ON wordpress;
+mysql> GRANT ALL ON wordpress.* TO 'wpuser'@'localhost';
 mysql> FLUSH PRIVILEGES;
 mysql> exit;
 ```
