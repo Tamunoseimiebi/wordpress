@@ -31,4 +31,6 @@ jobs:
         env:
           ANSIBLE_HOST_KEY_CHECKING: False
           
-    
+      - name: Update WordPress Files
+        run: |
+          ssh -i ${{ secrets.SSH_PRIVATE_KEY }} ${{ secrets.SSH_USER }}@${{ secrets.IP_ADDRESS }} "cd /var/html/wordpress && git pull"
