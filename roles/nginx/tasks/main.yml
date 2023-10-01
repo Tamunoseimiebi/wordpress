@@ -1,0 +1,39 @@
+---
+# This playbook contains tasks to configure NGINX 
+
+- name: Install NGINX WebServer
+  apt:
+    name: nginx
+    state: latest
+
+- name: make sure Nginx is running
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+
+
+- name: Copy the configuration file to sites-available directory
+  copy:
+    src: ../templates/default.conf
+    dest: /etc/nginx/sites-available/wordpress
+    mode: 0777
+  notify:
+    - restart-nginx
+
+- name: Copy the configuration file to sites-enabled directory
+  copy:
+    src: ../templates/default.conf
+    dest: /etc/nginx/sites-enabled/wordpress
+    mode: 0777
+  notify:
+    - restart-nginx
+
+- name: Remove default virtualhost file
+  file:
+    path: /etc/nginx/sites-enabled/default.conf
+    state: absent
+  notify:
+    - restart-nginx
+...

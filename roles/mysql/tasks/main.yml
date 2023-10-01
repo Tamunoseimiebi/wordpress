@@ -1,0 +1,51 @@
+---
+# This playbook contains tasks to configure DB Server
+# python-mysqldb, to manage the connection to the database server
+
+- include_vars: ../defaults/main.yml
+
+- name: Install MySQL Server and  Python MySQL packages 
+  apt:
+    name: "{{ item }}"
+    state: latest
+    force: yes
+  with_items:
+    - python-mysqldb
+    - mysql-common
+    - mysql-server
+    - libmysqlclient20
+    - python3-mysqldb
+    - python3-mysqldb-dbg
+    - mysql-client
+
+- name: Ensure MySQL server is running
+  service:
+    name: mysql
+    state: started
+    enabled: yes
+    use: service
+
+- name: Create Mysql configuration file
+  template: 
+    src: my.cnf.j2 
+    dest: /etc/mysql/mysql.conf.d/mysqld.cnf
+    owner: root
+    group: root
+    mode: 0777
+  notify:
+  - restart-mysql 
+
+- name: Create MySQL Database
+  mysql_db:
+    login_user: "{{ mysql_user }}"
+    name: "{{ wp_mysql_db }}"
+    state: present
+
+- name: Create MySQL User 
+  mysql_user:
+    login_user: "{{ mysql_user }}"
+    name: "{{ wp_mysql_user }}"
+    password: "{{ wp_mysql_password }}"
+    host: '%'
+    priv: '*.*:ALL'
+...

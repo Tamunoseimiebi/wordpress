@@ -1,0 +1,13 @@
+---
+# This playbook deploys WordPress on LEMP Stack 
+
+ - name: Configure WordPress on LEMP Stack 
+   hosts: all
+   become: yes
+
+   roles:
+     - mysql
+     - nginx
+     - php
+     - wordpress
+...

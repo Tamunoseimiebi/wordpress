@@ -1,0 +1,22 @@
+---
+# tasks file for php
+
+- name: Install PHP and dependencies
+  apt:
+    name: "{{ item  }}"
+    state: present
+  with_items:
+    - php8.1
+    - php-fpm
+    - php-mysql
+    - php-mcrypt
+    - php-gd
+
+- name: configurethe php processor
+  lineinfile:
+    name: /etc/php/8.1/fpm/php.ini
+    regexp: '(.)+cgi.fix_pathinfo=1'
+    line: 'cgi.fix_pathinfo='
+  notify:
+    - restart-php8.1-fpm
+...
