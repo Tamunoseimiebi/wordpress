@@ -439,6 +439,9 @@ In other to achieve this, we'll be using Ansible to automate the setup of WordPr
 
 ```shell
 ansible/
+├── install-lemp.yml
+├── inventory
+├── README.md
 ├── roles
 │   ├── mysql
 │   │   ├── defaults
@@ -464,6 +467,7 @@ ansible/
 │   └── wordpress
 │       └── tasks
 │           └── main.yml
+
 
 ```
 The above contains ansible scripts that ensure a LEMP stack is installed and configured to deploy our WordPress website.
