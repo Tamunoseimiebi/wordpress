@@ -506,7 +506,7 @@ jobs:
 
       - name: Deploy and Configure LEMP Stack
         run: |
-          ansible-playbook -i inventory playbook.yml
+          ansible-playbook -i inventory deploy.yml
         become: true
         env:
           ANSIBLE_HOST_KEY_CHECKING: False
